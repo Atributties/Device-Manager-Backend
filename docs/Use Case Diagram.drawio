@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-11-20T12:56:26.635Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="2-u5ECNEzv1TAuqn_UNw" version="21.3.5" type="github">
+<mxfile host="app.diagrams.net" modified="2023-11-20T13:01:47.433Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="FgIn9JuAplGQqIAVUaNc" version="21.3.5" type="github">
   <diagram name="Page-1" id="V8e6lL1omSQ8p3PDgwFw">
     <mxGraphModel dx="1128" dy="817" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
       <root>
@@ -112,8 +112,8 @@
         <mxCell id="11AYSxU1eU5rd6qPEEQT-42" value="Assign Devices" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="400" y="322" width="110" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="11AYSxU1eU5rd6qPEEQT-46" value="skal det hele" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="345" y="68" width="90" height="30" as="geometry" />
+        <mxCell id="11AYSxU1eU5rd6qPEEQT-46" value="skal mere være de knapper man kan klikke på fysisk som en af de brugere der er i systemet og ikke hvad man overordnet kan" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="200" y="50" width="670" height="30" as="geometry" />
         </mxCell>
         <mxCell id="11AYSxU1eU5rd6qPEEQT-47" value="Approve Requests" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="730" y="180" width="110" height="60" as="geometry" />
