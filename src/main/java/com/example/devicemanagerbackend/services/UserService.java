@@ -39,7 +39,7 @@ public class UserService {
     }
 
     public Optional<User> getById(String id) {
-        return getById(id);
+        return userRepository.findById(id);
 
     }
 

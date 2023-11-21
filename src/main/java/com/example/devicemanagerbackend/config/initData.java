@@ -16,7 +16,6 @@ public class initData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-
         User user1 = new User();
         user1.setFirstname("John");
         user1.setMiddleName("David");
@@ -41,5 +40,9 @@ public class initData implements CommandLineRunner {
         user4.setLastname("Webster");
         user4.setUserType(UserType.USER);
         userService.saveUser(user4);
+
+
     }
+
+
 }
