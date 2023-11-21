@@ -16,7 +16,7 @@ public class UserService {
 
     // Save employee with the id logik we made in employeeIdService.
     public Optional<User> saveUser(User user) {
-        user.setFirstname(generateFullname(user)); //Set fullname from the firstname, middlename(if present) and lastname from user input.
+        user.setFullName(generateFullname(user)); //Set fullname from the firstname, middlename(if present) and lastname from user input.
         userRepository.save(user);
         return Optional.of(user);
     }
