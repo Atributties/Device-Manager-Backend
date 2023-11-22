@@ -43,7 +43,7 @@ public class UserServiceTest {
 
         // Assert
         assertTrue(result.isPresent());
-        assertEquals("John Doe", result.get().getFullName());
+        assertEquals(user, result.get());
         verify(userRepository).save(user);
     }
 
@@ -53,7 +53,7 @@ public class UserServiceTest {
         User user = new User();
         user.setFirstname("John");
         user.setLastname("Doe");
-        user.setMiddleName("Smith");
+        user.setMiddlename("Smith");
 
         // Act
         String fullname = userService.generateFullname(user);

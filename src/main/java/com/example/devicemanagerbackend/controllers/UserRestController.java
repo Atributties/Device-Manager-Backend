@@ -3,10 +3,13 @@ package com.example.devicemanagerbackend.controllers;
 import com.example.devicemanagerbackend.entities.User;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.services.UserService;
+import com.example.devicemanagerbackend.entities.Role;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/User")
@@ -46,13 +49,20 @@ public class UserRestController {
         return userService.getById(id)
                 .map(userToUpdate -> {
                     userToUpdate.setFirstname(user.getFirstname());
-                    userToUpdate.setMiddleName(user.getMiddleName());
+                    userToUpdate.setMiddlename(user.getMiddlename());
                     userToUpdate.setLastname(user.getLastname());
-                    userToUpdate.setUserType(user.getUserType());
+
+                    // Assuming all authorities are indeed instances of Role
+                    Set<Role> updatedRoles = user.getAuthorities().stream()
+                            .map(authority -> (Role) authority)
+                            .collect(Collectors.toSet());
+                    userToUpdate.setAuthorities(updatedRoles);
+
                     return ResponseEntity.ok(userService.updateUser(userToUpdate));
                 })
-                .orElseThrow(() -> new CustomException("User not found with" + id));// skal nok add custom exeption her
+                .orElseThrow(() -> new CustomException("User not found with ID: " + id));
     }
+
 
 
     @DeleteMapping("/{id}")
