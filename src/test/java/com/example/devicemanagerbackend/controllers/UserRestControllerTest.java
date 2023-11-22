@@ -5,6 +5,8 @@ import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -43,27 +45,30 @@ public class UserRestControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expectedUsers, response.getBody());
     }
-    @Test
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3, 4, 5})
     public void testGetUserById() {
         // Arrange
-        String employeeId = "TL0001";
-        User expectedEmployee = new User();
+        int userId = 1;
+        User expectedUser = new User();
+        expectedUser.setId(userId);
 
         // Mock the service to return the expected employee
-        when(userService.getById(employeeId)).thenReturn(Optional.of(expectedEmployee));
+        when(userService.getById(userId)).thenReturn(Optional.of(expectedUser));
 
         // Act
-        ResponseEntity<User> response = userRestController.getUserById(employeeId);
+        ResponseEntity<User> response = userRestController.getUserById(userId);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(expectedEmployee, response.getBody());
+        assertEquals(expectedUser, response.getBody());
     }
 
     @Test
     public void testGetUserByIdWithInvalidId() {
         // Arrange
-        String invalidUserId = "InvalidID";
+        int invalidUserId = 10;
 
         // Mock the service to return an empty Optional to simulate a missing employee
         when(userService.getById(invalidUserId)).thenReturn(Optional.empty());
@@ -74,20 +79,59 @@ public class UserRestControllerTest {
 
 
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3, 4, 5})
     public void testCreateUser() {
         // Arrange
-        User newUser = new User();
+        User userToCreate = new User();
+        userToCreate.setId(1);
 
-        // Mock the service to return the saved employee
-        when(userService.saveUser(newUser)).thenReturn(Optional.of(newUser));
+        // Mock the service to return the created employee
+        when(userService.saveUser(userToCreate)).thenReturn(Optional.of(userToCreate));
 
         // Act
-        ResponseEntity<User> response = userRestController.createUser(newUser);
+        ResponseEntity<User> response = userRestController.createUser(userToCreate);
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(newUser, response.getBody());
+        assertEquals(userToCreate, response.getBody());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3, 4, 5})
+    public void testUpdateUser(int userId) {
+        // Arrange
+        User updatedUser = new User();
+        updatedUser.setId(userId);
+
+        // Mock the service to return the updated employee
+        when(userService.getById(userId)).thenReturn(Optional.of(updatedUser));
+        when(userService.updateUser(updatedUser)).thenReturn(updatedUser);
+
+        // Act
+        ResponseEntity<User> response = userRestController.updateUser(userId, updatedUser);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(updatedUser, response.getBody());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3, 4, 5})
+    public void testDeleteUser(int userId) {
+        // Arrange
+        User userToDelete = new User();
+        userToDelete.setId(userId);
+
+        // Mock the service to return the deleted employee
+        when(userService.getById(userId)).thenReturn(Optional.of(userToDelete));
+
+        // Act
+        ResponseEntity<User> response = userRestController.deleteUser(userId);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(userToDelete, response.getBody());
     }
 
 }

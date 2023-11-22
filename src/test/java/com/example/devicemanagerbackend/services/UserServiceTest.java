@@ -78,7 +78,7 @@ public class UserServiceTest {
     @Test
     public void testGetUsersById() {
         // Arrange
-        String employeeId = "123";
+        int employeeId = 6;
         User expectedEmployee = new User();
         when(userRepository.findById(employeeId)).thenReturn(Optional.of(expectedEmployee));
 
@@ -93,7 +93,7 @@ public class UserServiceTest {
     @Test
     public void testGetUsersByIdNotFound() {
         // Arrange
-        String userId = "123";
+        int userId = 7;
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         // Act
