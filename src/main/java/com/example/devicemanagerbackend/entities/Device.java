@@ -28,7 +28,8 @@ public class Device {
 
     @Id
     @Column(name = "device_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column(nullable = false)
     @Size(min = 15, max = 15)
