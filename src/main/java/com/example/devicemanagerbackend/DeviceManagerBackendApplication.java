@@ -1,7 +1,12 @@
 package com.example.devicemanagerbackend;
 
+import com.example.devicemanagerbackend.entities.Device;
+import com.example.devicemanagerbackend.entities.Role;
 import com.example.devicemanagerbackend.entities.User;
+import com.example.devicemanagerbackend.enums.DeviceStatus;
+import com.example.devicemanagerbackend.enums.DeviceType;
 import com.example.devicemanagerbackend.enums.UserType;
+import com.example.devicemanagerbackend.repositories.DeviceRepository;
 import com.example.devicemanagerbackend.repositories.RoleRepository;
 import com.example.devicemanagerbackend.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -9,7 +14,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.example.devicemanagerbackend.entities.Role;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +26,7 @@ public class DeviceManagerBackendApplication {
     }
 
     @Bean
-    CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder){
+    CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, DeviceRepository deviceRepository){
         return args -> {
             if (roleRepository.findByAuthority("SYSTEM_ADMIN").isPresent()) return;
             Role adminRole = roleRepository.save(new Role("SYSTEM_ADMIN"));
@@ -42,6 +46,17 @@ public class DeviceManagerBackendApplication {
             admin.setUserType(UserType.SYSTEM_ADMIN);
 
             userRepository.save(admin);
+
+            Device device = new Device();
+            device.setIMEINumber(123456789012345L);
+            device.setSerialNumber("ABC123");
+            device.setDeviceType(DeviceType.SMARTPHONE);
+            device.setDeviceModel("ModelXYZ");
+            device.setDeviceStatus(DeviceStatus.IN_USE);
+            device.setComments("Test comments");
+
+            deviceRepository.save(device);
+
         };
     }
 }
