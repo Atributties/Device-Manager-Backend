@@ -39,9 +39,14 @@ public class DeviceServiceTest {
 
         // Arrange
         Device device = new Device();
-        String nextId = "DEVICE001";
+        int nextId = 123213;
 
-        when(deviceRepository.save(device)).thenReturn(device);
+        // Mocking the behavior of the repository
+        when(deviceRepository.save(any(Device.class))).thenAnswer(invocation -> {
+            Device savedDevice = invocation.getArgument(0);
+            savedDevice.setId(nextId); // Assign a mock ID for testing purposes
+            return savedDevice;
+        });
 
         // Act
         Optional<Device> result = deviceService.saveDevice(device);
