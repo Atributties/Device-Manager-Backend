@@ -41,7 +41,7 @@ public class DeviceManagerBackendApplication {
             admin.setMiddlename("Hans");
             admin.setLastname("Christiansen");
             admin.setEmail("admin@example.com");
-            admin.setPassword(passwordEncoder.encode("password"));
+            admin.setPassword("password");
             admin.setAuthorities(roles);
             admin.setUserType(UserType.SYSTEM_ADMIN);
 
