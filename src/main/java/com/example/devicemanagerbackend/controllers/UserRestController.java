@@ -12,7 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/user")
+@CrossOrigin("*")
 public class UserRestController {
 
     private final UserService userService;
@@ -36,7 +37,7 @@ public class UserRestController {
                 .orElseThrow(() -> new CustomException("User not found with" + id));// skal nok add custom exeption her
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         return userService.saveUser(user)
                 .map(ResponseEntity::ok)
