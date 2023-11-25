@@ -63,6 +63,14 @@ public class User implements UserDetails {
 
     private Collection<? extends GrantedAuthority> getAuthoritiesBasedOnUserType() {
         List<GrantedAuthority> authorities = new ArrayList<>();
+        switch (this.userType) {
+            case DEVICE_ADMIN:
+                authorities.add(new SimpleGrantedAuthority("DEVICE_ADMIN"));
+                break;
+            case USER:
+                authorities.add(new SimpleGrantedAuthority("USER"));
+                break;
+        }
         return authorities;
     }
 
