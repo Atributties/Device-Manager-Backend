@@ -63,7 +63,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/auth/**").permitAll();
                     auth.requestMatchers("/user/register").hasRole("SYSTEM_ADMIN");
-                    auth.requestMatchers("/user/**").hasAnyRole("SYSTEM_ADMIN", "ADMIN");
+                    auth.requestMatchers("/user/**").hasAnyRole("SYSTEM_ADMIN", "DEVICE_ADMIN");
                     auth.anyRequest().authenticated();
                 });
 
