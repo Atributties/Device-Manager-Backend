@@ -48,7 +48,7 @@ public class DeviceManagerBackendApplication {
             userRepository.save(admin);
 
             Device device = new Device();
-            device.setIMEINumber(123456789012345L);
+            device.setImeiNumber("123456789012345");
             device.setSerialNumber("ABC123");
             device.setDeviceType(DeviceType.SMARTPHONE);
             device.setDeviceModel("ModelXYZ");

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/device")
+@CrossOrigin("*")
 public class DeviceRestController {
 
     private final DeviceService deviceService;

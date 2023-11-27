@@ -15,8 +15,9 @@ import java.util.*;
 public class User implements UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "User_id")
-    private String id;
+    private int id;
 
     @Column(unique = true)
     private String firstname;
@@ -41,7 +42,7 @@ public class User implements UserDetails {
         this.authorities = new HashSet<Role>();
     }
 
-    public User(String id, String firstname, String middlename, String lastname, String email, String password, Set<Role> authorities) {
+    public User(int id, String firstname, String middlename, String lastname, String email, String password, Set<Role> authorities) {
         super();
         this.id = id;
         this.firstname = firstname;
@@ -151,11 +152,11 @@ public class User implements UserDetails {
         this.userType = userType;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

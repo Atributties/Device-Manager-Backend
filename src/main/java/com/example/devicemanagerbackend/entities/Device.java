@@ -27,15 +27,12 @@ import java.time.LocalDateTime;
 public class Device {
 
     @Id
-    @Column(name = "device_id")
-    private String id;
-
     @Column(nullable = false)
     @Size(min = 15, max = 15)
-    private Long IMEINumber;
+    private String imeiNumber;
 
     @Column(nullable = false)
-    private String SerialNumber;
+    private String serialNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

@@ -131,7 +131,7 @@ public class UserRestControllerTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 4, 5})
-    public void testDeleteUser(int userId) {
+    public void testDeleteUser(String userId) {
         // Arrange
         User userToDelete = new User();
         userToDelete.setId(userId);

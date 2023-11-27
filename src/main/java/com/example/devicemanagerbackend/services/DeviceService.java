@@ -2,6 +2,7 @@ package com.example.devicemanagerbackend.services;
 
 import com.example.devicemanagerbackend.entities.Device;
 import com.example.devicemanagerbackend.repositories.DeviceRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,12 @@ public class DeviceService {
     @Autowired
     private DeviceRepository deviceRepository;
 
-    // Method for save device with the device id logik we made from deviceIdService
+    @Transactional
     public Optional<Device> saveDevice(Device device) {
         deviceRepository.save(device);
-        return Optional.of(device);
+        return deviceRepository.findById(device.getImeiNumber());
     }
+
 
 
     public List<Device> findAll() {
