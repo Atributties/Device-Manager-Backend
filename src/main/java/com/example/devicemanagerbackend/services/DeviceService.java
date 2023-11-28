@@ -3,6 +3,7 @@ package com.example.devicemanagerbackend.services;
 import com.example.devicemanagerbackend.entities.Device;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.repositories.DeviceRepository;
+import com.example.devicemanagerbackend.services.idService.DeviceIdService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,15 @@ public class DeviceService {
     @Autowired
     private DeviceRepository deviceRepository;
 
+    @Autowired
+    private DeviceIdService deviceIdService;
+
     @Transactional
     public Optional<Device> saveDevice(Device device) {
+        String nextId = deviceIdService.generateNextDeviceId(device.getDeviceType()); //generate and get the next id
+        device.setId(nextId);
         deviceRepository.save(device);
-        return deviceRepository.findById(device.getImeiNumber());
+        return Optional.of(device);
     }
 
 

@@ -9,6 +9,7 @@ import com.example.devicemanagerbackend.enums.UserType;
 import com.example.devicemanagerbackend.repositories.DeviceRepository;
 import com.example.devicemanagerbackend.repositories.RoleRepository;
 import com.example.devicemanagerbackend.repositories.UserRepository;
+import com.example.devicemanagerbackend.services.DeviceService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,7 +27,7 @@ public class DeviceManagerBackendApplication {
     }
 
     @Bean
-    CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, DeviceRepository deviceRepository){
+    CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, DeviceService deviceService){
         return args -> {
             if (roleRepository.findByAuthority("SYSTEM_ADMIN").isPresent()) return;
             Role adminRole = roleRepository.save(new Role("SYSTEM_ADMIN"));
@@ -55,7 +56,7 @@ public class DeviceManagerBackendApplication {
             device.setDeviceStatus(DeviceStatus.IN_USE);
             device.setComments("Test comments");
 
-            deviceRepository.save(device);
+            deviceService.saveDevice(device);
 
         };
     }
