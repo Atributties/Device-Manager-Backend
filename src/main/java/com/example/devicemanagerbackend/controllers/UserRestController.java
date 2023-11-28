@@ -2,12 +2,17 @@ package com.example.devicemanagerbackend.controllers;
 
 import com.example.devicemanagerbackend.entities.User;
 import com.example.devicemanagerbackend.exceptions.CustomException;
+import com.example.devicemanagerbackend.repositories.RoleRepository;
 import com.example.devicemanagerbackend.services.UserService;
 import com.example.devicemanagerbackend.entities.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
+
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,6 +22,9 @@ import java.util.stream.Collectors;
 public class UserRestController {
 
     private final UserService userService;
+
+@Autowired
+private RoleRepository roleRepository;
 
     public UserRestController(UserService userService) {
         this.userService = userService;
@@ -52,10 +60,14 @@ public class UserRestController {
                     userToUpdate.setFirstname(user.getFirstname());
                     userToUpdate.setMiddlename(user.getMiddlename());
                     userToUpdate.setLastname(user.getLastname());
+                    userToUpdate.setEmail(user.getEmail());
+                    userToUpdate.setPassword(user.getPassword());
+                    userToUpdate.setUserType(user.getUserType());
 
-                    // Assuming all authorities are indeed instances of Role
                     Set<Role> updatedRoles = user.getAuthorities().stream()
-                            .map(authority -> (Role) authority)
+                            .map(authority -> roleRepository.findByAuthority(authority.getAuthority()))
+                            .filter(Optional::isPresent) // Check if Optional contains a value
+                            .map(Optional::get) // Extract the value from Optional
                             .collect(Collectors.toSet());
                     userToUpdate.setAuthorities(updatedRoles);
 
@@ -63,6 +75,8 @@ public class UserRestController {
                 })
                 .orElseThrow(() -> new CustomException("User not found with ID: " + id));
     }
+
+
 
 
 
