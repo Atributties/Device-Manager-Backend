@@ -46,10 +46,10 @@ public class DeviceRestController {
     // Opdater en eksisterende enhed
     @PutMapping("/{id}")
     public ResponseEntity<Device> updateDevice(@PathVariable String id, @RequestBody Device updatedDevice) {
-        return deviceService.getById(id)
-                .map(device -> ResponseEntity.ok(deviceService.updateDevice(updatedDevice)))
-                .orElseThrow(() -> new CustomException("Device not found with ID: " + id));
+        Device updated = deviceService.updateDevice(id, updatedDevice);
+        return ResponseEntity.ok(updated);
     }
+
 
 
     @DeleteMapping("/{id}")

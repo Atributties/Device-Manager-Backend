@@ -39,9 +39,10 @@ public class DeviceService {
     }
 
     @Transactional
-    public Device updateDevice(Device updatedDevice) {
-        return deviceRepository.findById(updatedDevice.getImeiNumber())
+    public Device updateDevice(String id, Device updatedDevice) {
+        return deviceRepository.findById(id)
                 .map(existingDevice -> {
+                    existingDevice.setImeiNumber(updatedDevice.getImeiNumber());
                     existingDevice.setSerialNumber(updatedDevice.getSerialNumber());
                     existingDevice.setDeviceType(updatedDevice.getDeviceType());
                     existingDevice.setDeviceModel(updatedDevice.getDeviceModel());
@@ -50,8 +51,9 @@ public class DeviceService {
 
                     return deviceRepository.save(existingDevice);
                 })
-                .orElseThrow(() -> new CustomException("Device not found"));
+                .orElseThrow(() -> new CustomException("Device not found with ID: " + id));
     }
+
 
 
     public void delete(Device device) {
