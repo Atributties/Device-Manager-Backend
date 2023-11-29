@@ -15,11 +15,10 @@ import java.util.*;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "User_id")
     private int id;
 
-    @Column(unique = true)
     private String firstname;
     private String middlename;
     private String lastname;

@@ -34,7 +34,7 @@ public class DatacardService {
     public Datacard updateDatacard(int id, Datacard updateDatacard) {
         return datacardRepository.findById(id)
                 .map(existingDatacard -> {
-                    existingDatacard.setImsiNumber(updateDatacard.getImsiNumber());
+                    existingDatacard.setIccidNumber(updateDatacard.getIccidNumber());
                     existingDatacard.setPin(updateDatacard.getPin());
                     existingDatacard.setPuk(updateDatacard.getPuk());
 

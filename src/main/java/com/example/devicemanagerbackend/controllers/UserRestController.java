@@ -46,6 +46,7 @@ public class UserRestController {
 
     @PostMapping("/register")
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        System.out.println(user.toString());
         return userService.saveUser(user)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new CustomException("Problem with posting user"));// skal nok add custom exeption her

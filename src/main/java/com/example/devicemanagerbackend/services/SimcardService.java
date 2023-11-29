@@ -15,8 +15,10 @@ public class SimcardService {
 
     @Autowired
     SimcardRepository simcardRepository;
+
     @Transactional
     public Optional<Simcard> saveSimcard(Simcard simcard) {
+        System.out.println(simcard.toString());
         simcardRepository.save(simcard);
         return Optional.of(simcard);
     }
@@ -33,7 +35,7 @@ public class SimcardService {
     public Simcard updateSimcard(int id, Simcard updateSimcard) {
         return simcardRepository.findById(id)
                 .map(existingDatacard -> {
-                    existingDatacard.setImsiNumber(updateSimcard.getImsiNumber());
+                    existingDatacard.setIccidNumber(updateSimcard.getIccidNumber());
                     existingDatacard.setPhoneNumber(updateSimcard.getPhoneNumber());
                     existingDatacard.setPin(updateSimcard.getPin());
                     existingDatacard.setPuk(updateSimcard.getPuk());

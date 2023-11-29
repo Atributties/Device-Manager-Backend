@@ -58,17 +58,17 @@ public class DeviceManagerBackendApplication {
             deviceService.saveDevice(device);
 
             Simcard simcard = new Simcard();
-            simcard.setImsiNumber("555444333222111");
-            simcard.setPhoneNumber(98765432);
-            simcard.setPin(4321);
-            simcard.setPuk(8765);
+            simcard.setIccidNumber("55544433322211112121");
+            simcard.setPhoneNumber("98765432");
+            simcard.setPin("4321");
+            simcard.setPuk("8765");
             simcardService.saveSimcard(simcard);
 
             // Creating and saving test data for Datacard
             Datacard datacard = new Datacard();
-            datacard.setImsiNumber("999888777666555");
-            datacard.setPin(9999);
-            datacard.setPuk(1111);
+            datacard.setIccidNumber("999888777666555");
+            datacard.setPin("9999");
+            datacard.setPuk("1111");
             datacardService.saveDatacard(datacard);
 
 

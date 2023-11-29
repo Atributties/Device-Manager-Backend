@@ -13,18 +13,17 @@ public class Simcard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "simcard_id")
     private int id;
 
     @Column(nullable = false)
-    private String ICCIDNumber;
+    private String iccidNumber;
 
     @Column(nullable = false)
-    private int phoneNumber;
+    private String phoneNumber;
 
     @Column(nullable = false)
-    private int pin;
+    private String pin;
 
     @Column(nullable = false)
-    private int puk;
+    private String puk;
 }

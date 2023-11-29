@@ -38,6 +38,7 @@ public class SimcardController {
 
     @PostMapping
     public ResponseEntity<Simcard> createSimcard(@RequestBody Simcard simcard) {
+        System.out.println(simcard.toString());
         return simcardService.saveSimcard(simcard)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new CustomException("Problem with post Simcard"));

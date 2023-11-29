@@ -84,6 +84,8 @@ public class AuthenticationService {
 
             String token = tokenService.generateJwt(auth);
 
+            System.out.println(email);
+            System.out.println(token);
             return new LoginResponseDTO(userRepository.findByEmail(email).get(), token);
 
         } catch(AuthenticationException e){

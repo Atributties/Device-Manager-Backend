@@ -17,12 +17,12 @@ public class Datacard {
     private int id;
 
     @Column(nullable = false)
-    private String ICCIDNumber;
+    private String iccidNumber;
 
     @Column(nullable = false)
-    private int pin;
+    private String pin;
 
     @Column(nullable = false)
-    private int puk;
+    private String puk;
 
 }
