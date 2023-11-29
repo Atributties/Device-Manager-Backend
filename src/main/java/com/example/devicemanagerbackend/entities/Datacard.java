@@ -13,15 +13,16 @@ public class Datacard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "simcard_id")
+    @Column(name = "datacard_id")
     private int id;
 
     @Column(nullable = false)
-    private String imsiNumber;
+    private String ICCIDNumber;
 
     @Column(nullable = false)
     private int pin;
 
     @Column(nullable = false)
     private int puk;
+
 }
