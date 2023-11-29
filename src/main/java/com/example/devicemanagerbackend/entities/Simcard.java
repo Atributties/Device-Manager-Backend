@@ -17,7 +17,7 @@ public class Simcard {
     private int id;
 
     @Column(nullable = false)
-    private String imsiNumber;
+    private String ICCIDNumber;
 
     @Column(nullable = false)
     private int phoneNumber;
