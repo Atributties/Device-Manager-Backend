@@ -1,6 +1,8 @@
 package com.example.devicemanagerbackend.controllers;
 
 import com.example.devicemanagerbackend.entities.Device;
+import com.example.devicemanagerbackend.enums.DeviceStatus;
+import com.example.devicemanagerbackend.enums.DeviceType;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.services.DeviceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,12 +14,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -132,16 +137,25 @@ class DeviceRestControllerTest {
     }
 
 
-
     @Test
     public void testUpdateDevice() {
         // Arrange
         String deviceId = "TB0001";
-        Device updatedDevice = new Device();
+        Device updatedDevice = new Device(
+                "AD1233432211233",    // id
+                "AD1233432211233",    // imeiNumber
+                "Serial123",          // serialNumber
+                DeviceType.TABLET,    // deviceType
+                "ModelX",             // deviceModel
+                DeviceStatus.IN_USE,  // deviceStatus
+                "Some comments",      // comments
+                LocalDateTime.now(),  // dateCreated
+                LocalDateTime.now()   // lastUpdated
+        );
 
-        // Mock the service to return the existing device and the updated device
-        when(deviceService.getById(deviceId)).thenReturn(Optional.of(new Device()));
-        when(deviceService.updateDevice(updatedDevice)).thenReturn(updatedDevice);
+
+        // Mock the service to return the updated device when updated
+        when(deviceService.updateDevice(eq(deviceId), any(Device.class))).thenReturn(updatedDevice);
 
         // Act
         ResponseEntity<Device> response = deviceRestController.updateDevice(deviceId, updatedDevice);
@@ -151,22 +165,22 @@ class DeviceRestControllerTest {
         assertEquals(updatedDevice, response.getBody());
     }
 
+
+
     @Test
     public void testUpdateDeviceException() {
         // Arrange
         String deviceId = "TB0001";
         Device updatedDevice = new Device();
 
-        // Mock the service to return the existing device and the updated device
-        when(deviceService.getById(deviceId)).thenReturn(Optional.of(new Device()));
-        when(deviceService.updateDevice(updatedDevice)).thenReturn(updatedDevice);
-
-        // Simulér en fejl i servicekaldet
-        when(deviceService.updateDevice(updatedDevice)).thenThrow(new CustomException("Service exception"));
+        // Mock the service to throw a CustomException when updateDevice is called
+        when(deviceService.updateDevice(eq(deviceId), eq(updatedDevice)))
+                .thenThrow(new CustomException("Service exception"));
 
         // Act and Assert
         assertThrows(CustomException.class, () -> deviceRestController.updateDevice(deviceId, updatedDevice));
     }
+
 
 
 

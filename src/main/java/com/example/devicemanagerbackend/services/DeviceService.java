@@ -28,8 +28,6 @@ public class DeviceService {
         return Optional.of(device);
     }
 
-
-
     public List<Device> findAll() {
         return deviceRepository.findAll();
     }
