@@ -1,18 +1,16 @@
 package com.example.devicemanagerbackend.controllers;
 
+import com.example.devicemanagerbackend.entities.Role;
 import com.example.devicemanagerbackend.entities.User;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.repositories.RoleRepository;
 import com.example.devicemanagerbackend.services.UserService;
-import com.example.devicemanagerbackend.entities.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Optional;
-
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,10 +19,11 @@ import java.util.stream.Collectors;
 @CrossOrigin("*")
 public class UserRestController {
 
+    @Autowired
     private final UserService userService;
 
-@Autowired
-private RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     public UserRestController(UserService userService) {
         this.userService = userService;

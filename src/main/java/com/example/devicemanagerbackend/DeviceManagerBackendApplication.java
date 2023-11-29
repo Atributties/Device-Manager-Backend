@@ -1,15 +1,14 @@
 package com.example.devicemanagerbackend;
 
-import com.example.devicemanagerbackend.entities.Device;
-import com.example.devicemanagerbackend.entities.Role;
-import com.example.devicemanagerbackend.entities.User;
+import com.example.devicemanagerbackend.entities.*;
 import com.example.devicemanagerbackend.enums.DeviceStatus;
 import com.example.devicemanagerbackend.enums.DeviceType;
 import com.example.devicemanagerbackend.enums.UserType;
-import com.example.devicemanagerbackend.repositories.DeviceRepository;
 import com.example.devicemanagerbackend.repositories.RoleRepository;
 import com.example.devicemanagerbackend.repositories.UserRepository;
+import com.example.devicemanagerbackend.services.DatacardService;
 import com.example.devicemanagerbackend.services.DeviceService;
+import com.example.devicemanagerbackend.services.SimcardService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,7 +26,7 @@ public class DeviceManagerBackendApplication {
     }
 
     @Bean
-    CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, DeviceService deviceService){
+    CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, DeviceService deviceService, SimcardService simcardService, DatacardService datacardService){
         return args -> {
             if (roleRepository.findByAuthority("SYSTEM_ADMIN").isPresent()) return;
             Role adminRole = roleRepository.save(new Role("SYSTEM_ADMIN"));
@@ -57,6 +56,22 @@ public class DeviceManagerBackendApplication {
             device.setComments("Test comments");
 
             deviceService.saveDevice(device);
+
+            Simcard simcard = new Simcard();
+            simcard.setImsiNumber("555444333222111");
+            simcard.setPhoneNumber(98765432);
+            simcard.setPin(4321);
+            simcard.setPuk(8765);
+            simcardService.saveSimcard(simcard);
+
+            // Creating and saving test data for Datacard
+            Datacard datacard = new Datacard();
+            datacard.setImsiNumber("999888777666555");
+            datacard.setPin(9999);
+            datacard.setPuk(1111);
+            datacardService.saveDatacard(datacard);
+
+
 
         };
     }

@@ -17,7 +17,7 @@ public class Datacard {
     private int id;
 
     @Column(nullable = false)
-    private String imsinumber;
+    private String imsiNumber;
 
     @Column(nullable = false)
     private int pin;
