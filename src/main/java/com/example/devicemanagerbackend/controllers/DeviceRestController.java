@@ -1,6 +1,8 @@
 package com.example.devicemanagerbackend.controllers;
 
 import com.example.devicemanagerbackend.entities.Device;
+import com.example.devicemanagerbackend.enums.DeviceStatus;
+import com.example.devicemanagerbackend.enums.DeviceType;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.services.DeviceService;
 import org.springframework.http.ResponseEntity;
