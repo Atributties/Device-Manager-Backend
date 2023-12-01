@@ -1,6 +1,7 @@
 package com.example.devicemanagerbackend.services;
 
 import com.example.devicemanagerbackend.entities.Device;
+import com.example.devicemanagerbackend.enums.DeviceType;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.repositories.DeviceRepository;
 import com.example.devicemanagerbackend.services.idService.DeviceIdService;
