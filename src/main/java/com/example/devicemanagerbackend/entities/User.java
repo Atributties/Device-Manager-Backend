@@ -2,6 +2,9 @@ package com.example.devicemanagerbackend.entities;
 
 import com.example.devicemanagerbackend.enums.UserType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -18,6 +24,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "User_id")
     private int id;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Device> devices;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private Simcard simcard;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Datacard> datacards;
 
     private String firstname;
     private String middlename;
@@ -34,25 +50,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> authorities;
-
-    public User() {
-        super();
-        this.authorities = new HashSet<Role>();
-    }
-
-    public User(int id, String firstname, String middlename, String lastname, String email, String password, Set<Role> authorities) {
-        super();
-        this.id = id;
-        this.firstname = firstname;
-        this.middlename = middlename;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password;
-        this.authorities = authorities;
-    }
-
-    // Getters and setters
+    private Set<Role> authorities = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -114,53 +112,5 @@ public class User implements UserDetails {
         this.password = passwordEncoder.encode(password);
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getMiddlename() {
-        return middlename;
-    }
-
-    public void setMiddlename(String middlename) {
-        this.middlename = middlename;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-
-    public UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 }
 
