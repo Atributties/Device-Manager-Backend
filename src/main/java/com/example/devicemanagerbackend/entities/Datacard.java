@@ -16,6 +16,10 @@ public class Datacard {
     @Column(name = "datacard_id")
     private int id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Column(nullable = false)
     private String iccidNumber;
 

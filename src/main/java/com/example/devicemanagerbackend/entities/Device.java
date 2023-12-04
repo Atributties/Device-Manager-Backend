@@ -2,8 +2,6 @@ package com.example.devicemanagerbackend.entities;
 
 import com.example.devicemanagerbackend.enums.DeviceStatus;
 import com.example.devicemanagerbackend.enums.DeviceType;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -31,6 +29,10 @@ public class Device {
     @Id
     @Column(name = "device_id")
     private String id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(nullable = false)
     @Size(min = 15, max = 15)
