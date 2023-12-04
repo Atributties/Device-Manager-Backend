@@ -30,9 +30,6 @@ public class Device {
     @Column(name = "device_id")
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @Column(nullable = false)
     @Size(min = 15, max = 15)
@@ -59,6 +56,10 @@ public class Device {
 
     @UpdateTimestamp //Hibernate automatic update this timestamp if there has been implemented a change in the database.
     private LocalDateTime lastUpdated;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
 }
 

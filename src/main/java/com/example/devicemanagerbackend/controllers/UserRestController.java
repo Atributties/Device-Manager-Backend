@@ -1,5 +1,6 @@
 package com.example.devicemanagerbackend.controllers;
 
+import com.example.devicemanagerbackend.DTO.UserDTO;
 import com.example.devicemanagerbackend.entities.Role;
 import com.example.devicemanagerbackend.entities.User;
 import com.example.devicemanagerbackend.exceptions.CustomException;
@@ -31,8 +32,8 @@ public class UserRestController {
 
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAll();
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> users = userService.findAll();
         return ResponseEntity.ok(users);
     }
 

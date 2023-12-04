@@ -54,7 +54,7 @@ public class DeviceManagerBackendApplication {
             device.setDeviceModel("ModelXYZ");
             device.setDeviceStatus(DeviceStatus.IN_USE);
             device.setComments("Test comments");
-
+            device.setUser(admin);
             deviceService.saveDevice(device);
 
             Simcard simcard = new Simcard();
@@ -62,6 +62,7 @@ public class DeviceManagerBackendApplication {
             simcard.setPhoneNumber("98765432");
             simcard.setPin("4321");
             simcard.setPuk("8765");
+            simcard.setUser(admin);
             simcardService.saveSimcard(simcard);
 
             // Creating and saving test data for Datacard
@@ -69,6 +70,7 @@ public class DeviceManagerBackendApplication {
             datacard.setIccidNumber("999888777666555");
             datacard.setPin("9999");
             datacard.setPuk("1111");
+            datacard.setUser(admin);
             datacardService.saveDatacard(datacard);
 
 

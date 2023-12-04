@@ -16,9 +16,6 @@ public class Datacard {
     @Column(name = "datacard_id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @Column(nullable = false)
     private String iccidNumber;
@@ -28,5 +25,9 @@ public class Datacard {
 
     @Column(nullable = false)
     private String puk;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id") // This is the foreign key column in the Device table
+    private User user;
 
 }

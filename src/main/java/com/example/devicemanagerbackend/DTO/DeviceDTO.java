@@ -1,15 +1,16 @@
 package com.example.devicemanagerbackend.DTO;
 
 import com.example.devicemanagerbackend.entities.Device;
+import com.example.devicemanagerbackend.entities.User;
 import com.example.devicemanagerbackend.enums.DeviceStatus;
 import com.example.devicemanagerbackend.enums.DeviceType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+
 @Data
 public class DeviceDTO {
     private String id;
-    private UserDTO user;
     private String imeiNumber;
     private String serialNumber;
     private DeviceType deviceType;
@@ -18,12 +19,20 @@ public class DeviceDTO {
     private String comments;
     private LocalDateTime dateCreated;
     private LocalDateTime lastUpdated;
+    private User user;
 
-    public DeviceDTO(Device device){
+    public DeviceDTO(Device device) {
         this.id = device.getId();
-        if (device.getUser() != null){
-            this.user = new UserDTO(device.getUser());
-
-        }
+        this.imeiNumber = device.getImeiNumber();
+        this.serialNumber = device.getSerialNumber();
+        this.deviceType = device.getDeviceType();
+        this.deviceModel = device.getDeviceModel();
+        this.deviceStatus = device.getDeviceStatus();
+        this.comments = device.getComments();
+        this.dateCreated = device.getDateCreated();
+        this.lastUpdated = device.getLastUpdated();
+        this.user = device.getUser();
     }
+
+
 }

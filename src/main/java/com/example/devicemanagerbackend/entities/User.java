@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,19 +23,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "User_id")
     private int id;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Device> devices;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private Simcard simcard;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Datacard> datacards;
-
     private String firstname;
     private String middlename;
     private String lastname;
@@ -51,6 +40,17 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> authorities = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Device> devices = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Datacard> datacards = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Simcard> simcards = new HashSet<>();
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -71,6 +71,7 @@ public class User implements UserDetails {
         }
         return authorities;
     }
+
 
     @Override
     public String getPassword() {
