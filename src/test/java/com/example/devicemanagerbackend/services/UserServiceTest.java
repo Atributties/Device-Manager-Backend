@@ -1,9 +1,8 @@
 package com.example.devicemanagerbackend.services;
 
-import com.example.devicemanagerbackend.DTO.UserDTO;
+
 import com.example.devicemanagerbackend.entities.User;
 import com.example.devicemanagerbackend.enums.UserRole;
-import com.example.devicemanagerbackend.enums.UserType;
 import com.example.devicemanagerbackend.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
