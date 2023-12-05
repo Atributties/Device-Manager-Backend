@@ -68,6 +68,7 @@ public class UserService implements UserDetailsService {
     public List<UserDTO> findAll() {
         List<User> users = userRepository.findAll();
 
+
         return users.stream()
                 .map(UserDTO::new)
                 .collect(Collectors.toList());

@@ -29,7 +29,6 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
-    @Transient
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
