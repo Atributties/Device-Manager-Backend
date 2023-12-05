@@ -1,6 +1,9 @@
 package com.example.devicemanagerbackend.controllers;
 
+import com.example.devicemanagerbackend.DTO.DatacardDTO;
+import com.example.devicemanagerbackend.DTO.DeviceDTO;
 import com.example.devicemanagerbackend.entities.Datacard;
+import com.example.devicemanagerbackend.entities.Device;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.services.DatacardService;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +48,7 @@ public class DatacardController {
 
     // Opdater en eksisterende enhed
     @PutMapping("/{id}")
-    public ResponseEntity<Datacard> updateDatacard(@PathVariable int id, @RequestBody Datacard updatedDatacard) {
+    public ResponseEntity<Datacard> updateDatacard(@PathVariable int id, @RequestBody DatacardDTO updatedDatacard) {
         Datacard updated = datacardService.updateDatacard(id, updatedDatacard);
         return ResponseEntity.ok(updated);
     }
@@ -61,4 +64,5 @@ public class DatacardController {
                 })
                 .orElseThrow(() -> new CustomException("Datacard not found with ID: " + id));
     }
+
 }

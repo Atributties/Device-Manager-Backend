@@ -3,8 +3,10 @@ package com.example.devicemanagerbackend.DTO;
 import com.example.devicemanagerbackend.entities.Datacard;
 import com.example.devicemanagerbackend.entities.User;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class DatacardDTO {
     private int id;
     private String iccidNumber;

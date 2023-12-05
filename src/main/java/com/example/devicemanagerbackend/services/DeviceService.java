@@ -1,5 +1,6 @@
 package com.example.devicemanagerbackend.services;
 
+import com.example.devicemanagerbackend.DTO.DeviceDTO;
 import com.example.devicemanagerbackend.entities.Device;
 import com.example.devicemanagerbackend.entities.User;
 import com.example.devicemanagerbackend.enums.DeviceStatus;
@@ -44,15 +45,32 @@ public class DeviceService {
     }
 
     @Transactional
-    public Device updateDevice(String id, Device updatedDevice) {
+    public Device updateDevice(String id, DeviceDTO updatedDeviceDTO) {
         return deviceRepository.findById(id)
                 .map(existingDevice -> {
-                    existingDevice.setImeiNumber(updatedDevice.getImeiNumber());
-                    existingDevice.setSerialNumber(updatedDevice.getSerialNumber());
-                    existingDevice.setDeviceType(updatedDevice.getDeviceType());
-                    existingDevice.setDeviceModel(updatedDevice.getDeviceModel());
-                    existingDevice.setDeviceStatus(updatedDevice.getDeviceStatus());
-                    existingDevice.setComments(updatedDevice.getComments());
+                    // Update device details
+                    existingDevice.setImeiNumber(updatedDeviceDTO.getImeiNumber());
+                    existingDevice.setSerialNumber(updatedDeviceDTO.getSerialNumber());
+                    existingDevice.setDeviceType(updatedDeviceDTO.getDeviceType());
+                    existingDevice.setDeviceModel(updatedDeviceDTO.getDeviceModel());
+                    existingDevice.setDeviceStatus(updatedDeviceDTO.getDeviceStatus());
+                    existingDevice.setComments(updatedDeviceDTO.getComments());
+
+                    // Check if user is assigned
+                    if (updatedDeviceDTO.getUser() != null) {
+                        int userId = updatedDeviceDTO.getUser().getId();
+                        if (userId != 0) {
+                            // Assign the device to the user
+                            User user = userRepository.findById(userId)
+                                    .orElseThrow(() -> new CustomException("User not found with id: " + userId));
+                            existingDevice.setUser(user);
+                            existingDevice.setDeviceStatus(DeviceStatus.IN_USE);
+                        }
+                    } else {
+                        // User is not assigned, set user to null and update device status
+                        existingDevice.setUser(null);
+                        existingDevice.setDeviceStatus(DeviceStatus.IN_STORAGE);
+                    }
 
                     return deviceRepository.save(existingDevice);
                 })
@@ -65,21 +83,6 @@ public class DeviceService {
         deviceRepository.delete(device);
     }
 
-    public Device assignDeviceToUser(String deviceId, Integer userId) {
-        Device device = deviceRepository.findById(deviceId)
-                .orElseThrow(() -> new CustomException("Device not found with id: " + deviceId));
-        if (userId == null) {
-            device.setUser(null);
-            device.setDeviceStatus(DeviceStatus.IN_STORAGE);
-        } else {
-            User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new CustomException("User not found with id: " + userId));
-            device.setUser(user); // Assign the device
-            device.setDeviceStatus(DeviceStatus.IN_USE);
-        }
-
-        return deviceRepository.save(device);
-    }
 
 
 }
