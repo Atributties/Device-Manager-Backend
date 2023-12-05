@@ -5,9 +5,13 @@ import com.example.devicemanagerbackend.entities.User;
 import com.example.devicemanagerbackend.enums.DeviceStatus;
 import com.example.devicemanagerbackend.enums.DeviceType;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @Data
 public class DeviceDTO {
     private String id;
