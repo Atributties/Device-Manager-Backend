@@ -1,5 +1,6 @@
 package com.example.devicemanagerbackend.controllers;
 
+import com.example.devicemanagerbackend.DTO.DeviceDTO;
 import com.example.devicemanagerbackend.entities.Device;
 import com.example.devicemanagerbackend.enums.DeviceStatus;
 import com.example.devicemanagerbackend.enums.DeviceType;
@@ -63,5 +64,14 @@ public class DeviceRestController {
                 })
                 .orElseThrow(() -> new CustomException("Device not found with ID: " + id));
     }
+
+    @PutMapping("/{deviceId}/assign")
+    public ResponseEntity<DeviceDTO> assignDeviceToUser(@PathVariable String deviceId, @RequestBody DeviceDTO deviceDTO) {
+        // Check if user is null or has id 0, then pass null to the service method
+        Integer userId = (deviceDTO.getUser() == null || deviceDTO.getUser().getId() == 0) ? null : deviceDTO.getUser().getId();
+        Device updatedDevice = deviceService.assignDeviceToUser(deviceId, userId);
+        return ResponseEntity.ok(new DeviceDTO(updatedDevice));
+    }
+
 
 }

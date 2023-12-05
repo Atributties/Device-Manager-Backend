@@ -1,9 +1,12 @@
 package com.example.devicemanagerbackend.services;
 
 import com.example.devicemanagerbackend.entities.Device;
+import com.example.devicemanagerbackend.entities.User;
+import com.example.devicemanagerbackend.enums.DeviceStatus;
 import com.example.devicemanagerbackend.enums.DeviceType;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.repositories.DeviceRepository;
+import com.example.devicemanagerbackend.repositories.UserRepository;
 import com.example.devicemanagerbackend.services.idService.DeviceIdService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,9 @@ public class DeviceService {
 
     @Autowired
     private DeviceIdService deviceIdService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional
     public Optional<Device> saveDevice(Device device) {
@@ -58,5 +64,22 @@ public class DeviceService {
     public void delete(Device device) {
         deviceRepository.delete(device);
     }
+
+    public Device assignDeviceToUser(String deviceId, Integer userId) {
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new CustomException("Device not found with id: " + deviceId));
+        if (userId == null) {
+            device.setUser(null);
+            device.setDeviceStatus(DeviceStatus.IN_STORAGE);
+        } else {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new CustomException("User not found with id: " + userId));
+            device.setUser(user); // Assign the device
+            device.setDeviceStatus(DeviceStatus.IN_USE);
+        }
+
+        return deviceRepository.save(device);
+    }
+
 
 }
