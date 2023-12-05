@@ -3,7 +3,7 @@ package com.example.devicemanagerbackend.controllers;
 
 import com.example.devicemanagerbackend.DTO.DeviceStatusDto;
 import com.example.devicemanagerbackend.DTO.DeviceTypeDto;
-import com.example.devicemanagerbackend.DTO.UserTypeDto;
+import com.example.devicemanagerbackend.DTO.UserRolesDTO;
 import com.example.devicemanagerbackend.services.EnumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,9 +36,9 @@ public class EnumController {
         List<DeviceStatusDto> deviceStatusDisplayNames = enumService.getAllDeviceStatusDisplayNames();
         return new ResponseEntity<>(deviceStatusDisplayNames, HttpStatus.OK);
     }
-    @GetMapping("/usertypes")
-    public ResponseEntity<List<UserTypeDto>> getAllUserTypesDisplayNames() {
-        List<UserTypeDto> userTypesDisplayNames = enumService.getAllUserTypesDisplayNames();
+    @GetMapping("/userRoles")
+    public ResponseEntity<List<UserRolesDTO>> getAllUserTypesDisplayNames() {
+        List<UserRolesDTO> userTypesDisplayNames = enumService.getAllUserTypesDisplayNames();
         return new ResponseEntity<>(userTypesDisplayNames, HttpStatus.OK);
     }
 

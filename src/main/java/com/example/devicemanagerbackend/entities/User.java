@@ -1,6 +1,6 @@
 package com.example.devicemanagerbackend.entities;
 
-import com.example.devicemanagerbackend.enums.UserType;
+import com.example.devicemanagerbackend.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +18,6 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -30,16 +29,13 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
+    @Transient
     @Enumerated(EnumType.STRING)
-    private UserType userType;
+    private UserRole userRole;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> authorities = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Device> devices = new HashSet<>();
@@ -50,27 +46,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Simcard> simcards = new HashSet<>();
 
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> combinedAuthorities = new HashSet<>(this.authorities);
-        combinedAuthorities.addAll(getAuthoritiesBasedOnUserType());
-        return combinedAuthorities;
+        return Set.of(new SimpleGrantedAuthority(role.getAuthority()));
     }
 
-    private Collection<? extends GrantedAuthority> getAuthoritiesBasedOnUserType() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        switch (this.userType) {
-            case DEVICE_ADMIN:
-                authorities.add(new SimpleGrantedAuthority("DEVICE_ADMIN"));
-                break;
-            case USER:
-                authorities.add(new SimpleGrantedAuthority("USER"));
-                break;
-        }
-        return authorities;
-    }
 
 
     @Override
@@ -104,9 +84,7 @@ public class User implements UserDetails {
     }
 
 
-    public void setAuthorities(Set<Role> authorities) {
-        this.authorities = authorities;
-    }
+
 
     public void setPassword(String password) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

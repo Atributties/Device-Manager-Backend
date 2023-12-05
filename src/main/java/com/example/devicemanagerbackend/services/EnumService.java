@@ -3,10 +3,11 @@ package com.example.devicemanagerbackend.services;
 
 import com.example.devicemanagerbackend.DTO.DeviceStatusDto;
 import com.example.devicemanagerbackend.DTO.DeviceTypeDto;
-import com.example.devicemanagerbackend.DTO.UserTypeDto;
+import com.example.devicemanagerbackend.DTO.UserRolesDTO;
 import com.example.devicemanagerbackend.enums.DeviceStatus;
 import com.example.devicemanagerbackend.enums.DeviceType;
-import com.example.devicemanagerbackend.enums.UserType;
+import com.example.devicemanagerbackend.enums.UserRole;
+import org.hibernate.usertype.UserType;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -28,9 +29,9 @@ public class EnumService {
                 .collect(Collectors.toList());
     }
 
-    public List<UserTypeDto> getAllUserTypesDisplayNames() {
-        return Arrays.stream(UserType.values())
-                .map(UserType::toDto)
+    public List<UserRolesDTO> getAllUserTypesDisplayNames() {
+        return Arrays.stream(UserRole.values())
+                .map(UserRole::toDto)
                 .collect(Collectors.toList());
     }
 }

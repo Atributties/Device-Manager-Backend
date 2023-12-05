@@ -1,7 +1,9 @@
 package com.example.devicemanagerbackend.services;
 
 import com.example.devicemanagerbackend.DTO.UserDTO;
+import com.example.devicemanagerbackend.entities.Role;
 import com.example.devicemanagerbackend.entities.User;
+import com.example.devicemanagerbackend.repositories.RoleRepository;
 import com.example.devicemanagerbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +26,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
@@ -35,10 +40,16 @@ public class UserService implements UserDetailsService {
     }
 
     // Save employee with the id logik we made in employeeIdService.
+
     public Optional<User> saveUser(User user) {
+        Role role = roleRepository.findByAuthority(String.valueOf(user.getUserRole()))
+                .orElseThrow(() -> new IllegalArgumentException("Role not found for authority: " + user.getUserRole()));
+
+        user.setRole(role);
         userRepository.save(user);
         return Optional.of(user);
     }
+
 
     // Collect fullname
     public String generateFullname(User user) {

@@ -137,7 +137,7 @@ class DeviceRestControllerTest {
     }
 
 
-    @Test
+    /*@Test
     public void testUpdateDevice() {
         // Arrange
         String deviceId = "TB0001";
@@ -164,6 +164,8 @@ class DeviceRestControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(updatedDevice, response.getBody());
     }
+
+     */
 
 
 

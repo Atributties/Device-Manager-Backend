@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserTypeDto {
+public class UserRolesDTO {
     private String displayName;
     private String enumValue;
 }

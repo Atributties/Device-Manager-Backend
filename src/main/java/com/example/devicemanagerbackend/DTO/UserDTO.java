@@ -1,7 +1,7 @@
 package com.example.devicemanagerbackend.DTO;
 
 import com.example.devicemanagerbackend.entities.User;
-import com.example.devicemanagerbackend.enums.UserType;
+import com.example.devicemanagerbackend.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class UserDTO {
     private String middlename;
     private String lastname;
     private String email;
-    private UserType userType;
+    private UserRole userRole;
     private Collection<? extends GrantedAuthority> authorities;
     private Set<DeviceDTO> devices;
     private Set<DatacardDTO> datacards;
@@ -34,7 +34,7 @@ public class UserDTO {
         this.middlename = user.getMiddlename();
         this.lastname = user.getLastname();
         this.email = user.getEmail();
-        this.userType = user.getUserType();
+        this.userRole = user.getUserRole();
         this.authorities = user.getAuthorities();
         this.devices = user.getDevices().stream().map(DeviceDTO::new).collect(Collectors.toSet());
         this.datacards = user.getDatacards().stream().map(DatacardDTO::new).collect(Collectors.toSet());

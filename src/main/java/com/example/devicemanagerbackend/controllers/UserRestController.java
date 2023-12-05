@@ -63,14 +63,11 @@ public class UserRestController {
                     userToUpdate.setLastname(user.getLastname());
                     userToUpdate.setEmail(user.getEmail());
                     userToUpdate.setPassword(user.getPassword());
-                    userToUpdate.setUserType(user.getUserType());
+                    userToUpdate.setUserRole(user.getUserRole());
 
-                    Set<Role> updatedRoles = user.getAuthorities().stream()
-                            .map(authority -> roleRepository.findByAuthority(authority.getAuthority()))
-                            .filter(Optional::isPresent) // Check if Optional contains a value
-                            .map(Optional::get) // Extract the value from Optional
-                            .collect(Collectors.toSet());
-                    userToUpdate.setAuthorities(updatedRoles);
+                    Role updatedRole = roleRepository.findByAuthority(user.getRole().getAuthority())
+                            .orElseThrow(() -> new CustomException("Role not found: " + user.getRole().getAuthority()));
+                    userToUpdate.setRole(updatedRole);
 
                     return ResponseEntity.ok(userService.updateUser(userToUpdate));
                 })
