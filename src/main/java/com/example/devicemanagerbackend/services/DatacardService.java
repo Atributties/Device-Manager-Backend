@@ -71,5 +71,9 @@ public class DatacardService {
         datacardRepository.delete(datacard);
     }
 
+    public List<Datacard> findDatacardsByUserId(int userId) {
+        return datacardRepository.findByUserId(userId);
+    }
+
 
 }

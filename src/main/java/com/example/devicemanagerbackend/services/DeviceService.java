@@ -82,6 +82,10 @@ public class DeviceService {
         deviceRepository.delete(device);
     }
 
+    public List<Device> findDevicesByUserId(int userId) {
+        return deviceRepository.findByUserId(userId);
+    }
+
 
 
 }
