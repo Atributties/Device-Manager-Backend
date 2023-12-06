@@ -70,11 +70,11 @@ public class SimcardService {
                 .orElseThrow(() -> new CustomException("device not updated"));
     }
 
-
-
-
-
     public void delete(Simcard simcard) {
         simcardRepository.delete(simcard);
+    }
+
+    public List<Simcard> findSimcardsByUserId(int userId) {
+        return simcardRepository.findByUserId(userId);
     }
 }

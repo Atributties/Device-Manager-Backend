@@ -65,4 +65,10 @@ public class SimcardController {
                 })
                 .orElseThrow(() -> new CustomException("Datacard not found with ID: " + id));
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Simcard>> getSimcardsByUserId(@PathVariable int userId) {
+        List<Simcard> simcards = simcardService.findSimcardsByUserId(userId);
+        return ResponseEntity.ok(simcards);
+    }
 }

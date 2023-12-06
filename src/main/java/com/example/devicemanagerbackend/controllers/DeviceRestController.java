@@ -59,5 +59,10 @@ public class DeviceRestController {
                 .orElseThrow(() -> new CustomException("Device not found with ID: " + id));
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Device>> getDevicesByUserId(@PathVariable int userId) {
+        List<Device> devices = deviceService.findDevicesByUserId(userId);
+        return ResponseEntity.ok(devices);
+    }
 
 }

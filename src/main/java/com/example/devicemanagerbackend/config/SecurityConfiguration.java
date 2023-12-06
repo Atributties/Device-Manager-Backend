@@ -65,6 +65,9 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/enums/**").permitAll();
                     auth.requestMatchers("/user/register").hasRole("SYSTEM_ADMIN");
                     auth.requestMatchers("/user/**").hasAnyRole("SYSTEM_ADMIN", "DEVICE_ADMIN");
+                    auth.requestMatchers("/device/user/**").hasAnyRole("SYSTEM_ADMIN", "DEVICE_ADMIN", "USER");
+                    auth.requestMatchers("/datacard/user/**").hasAnyRole("SYSTEM_ADMIN", "DEVICE_ADMIN", "USER");
+                    auth.requestMatchers("/simcard/user/**").hasAnyRole("SYSTEM_ADMIN", "DEVICE_ADMIN", "USER");
                     auth.requestMatchers("/device/**").hasAnyRole("SYSTEM_ADMIN", "DEVICE_ADMIN");
                     auth.requestMatchers("/simcard/**").hasAnyRole("SYSTEM_ADMIN", "DEVICE_ADMIN");
                     auth.requestMatchers("/datacard/**").hasAnyRole("SYSTEM_ADMIN", "DEVICE_ADMIN");

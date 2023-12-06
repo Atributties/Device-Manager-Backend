@@ -65,4 +65,10 @@ public class DatacardController {
                 .orElseThrow(() -> new CustomException("Datacard not found with ID: " + id));
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Datacard>> getDatacardsByUserId(@PathVariable int userId) {
+        List<Datacard> datacards = datacardService.findDatacardsByUserId(userId);
+        return ResponseEntity.ok(datacards);
+    }
+
 }
