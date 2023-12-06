@@ -1,11 +1,9 @@
 package com.example.devicemanagerbackend.services;
 
 import com.example.devicemanagerbackend.DTO.DatacardDTO;
-import com.example.devicemanagerbackend.DTO.DeviceDTO;
 import com.example.devicemanagerbackend.entities.Datacard;
-import com.example.devicemanagerbackend.entities.Device;
 import com.example.devicemanagerbackend.entities.User;
-import com.example.devicemanagerbackend.enums.DeviceStatus;
+import com.example.devicemanagerbackend.enums.Status;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.repositories.DatacardRepository;
 import com.example.devicemanagerbackend.repositories.UserRepository;
@@ -55,11 +53,13 @@ public class DatacardService {
                             User user = userRepository.findById(userId)
                                     .orElseThrow(() -> new CustomException("User not found with id: " + userId));
                             existingDatacard.setUser(user);
+                            existingDatacard.setStatus(Status.IN_USE);
 
                         }
                     } else {
                         // User is not assigned, set user to null and update device status
                         existingDatacard.setUser(null);
+                        existingDatacard.setStatus(Status.IN_STORAGE);
 
                     }
                     return datacardRepository.save(existingDatacard);

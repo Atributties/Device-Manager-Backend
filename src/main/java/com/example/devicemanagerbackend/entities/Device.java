@@ -1,6 +1,6 @@
 package com.example.devicemanagerbackend.entities;
 
-import com.example.devicemanagerbackend.enums.DeviceStatus;
+import com.example.devicemanagerbackend.enums.Status;
 import com.example.devicemanagerbackend.enums.DeviceType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -47,7 +47,7 @@ public class Device {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private DeviceStatus deviceStatus;
+    private Status status;
 
     private String comments;
 

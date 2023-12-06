@@ -1,8 +1,6 @@
 package com.example.devicemanagerbackend.controllers;
 
 import com.example.devicemanagerbackend.entities.Device;
-import com.example.devicemanagerbackend.enums.DeviceStatus;
-import com.example.devicemanagerbackend.enums.DeviceType;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.services.DeviceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

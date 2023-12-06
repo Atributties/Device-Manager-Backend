@@ -3,8 +3,7 @@ package com.example.devicemanagerbackend.services;
 import com.example.devicemanagerbackend.DTO.DeviceDTO;
 import com.example.devicemanagerbackend.entities.Device;
 import com.example.devicemanagerbackend.entities.User;
-import com.example.devicemanagerbackend.enums.DeviceStatus;
-import com.example.devicemanagerbackend.enums.DeviceType;
+import com.example.devicemanagerbackend.enums.Status;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.repositories.DeviceRepository;
 import com.example.devicemanagerbackend.repositories.UserRepository;
@@ -53,7 +52,7 @@ public class DeviceService {
                     existingDevice.setSerialNumber(updatedDeviceDTO.getSerialNumber());
                     existingDevice.setDeviceType(updatedDeviceDTO.getDeviceType());
                     existingDevice.setDeviceModel(updatedDeviceDTO.getDeviceModel());
-                    existingDevice.setDeviceStatus(updatedDeviceDTO.getDeviceStatus());
+                    existingDevice.setStatus(updatedDeviceDTO.getStatus());
                     existingDevice.setComments(updatedDeviceDTO.getComments());
 
                     // Check if user is assigned
@@ -64,12 +63,12 @@ public class DeviceService {
                             User user = userRepository.findById(userId)
                                     .orElseThrow(() -> new CustomException("User not found with id: " + userId));
                             existingDevice.setUser(user);
-                            existingDevice.setDeviceStatus(DeviceStatus.IN_USE);
+                            existingDevice.setStatus(Status.IN_USE);
                         }
                     } else {
                         // User is not assigned, set user to null and update device status
                         existingDevice.setUser(null);
-                        existingDevice.setDeviceStatus(DeviceStatus.IN_STORAGE);
+                        existingDevice.setStatus(Status.IN_STORAGE);
                     }
 
                     return deviceRepository.save(existingDevice);

@@ -1,7 +1,7 @@
 package com.example.devicemanagerbackend;
 
 import com.example.devicemanagerbackend.entities.*;
-import com.example.devicemanagerbackend.enums.DeviceStatus;
+import com.example.devicemanagerbackend.enums.Status;
 import com.example.devicemanagerbackend.enums.DeviceType;
 import com.example.devicemanagerbackend.enums.UserRole;
 import com.example.devicemanagerbackend.repositories.RoleRepository;
@@ -13,13 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @SpringBootApplication
 public class DeviceManagerBackendApplication {
@@ -65,7 +59,7 @@ public class DeviceManagerBackendApplication {
             device.setSerialNumber("ABC123");
             device.setDeviceType(DeviceType.SMARTPHONE);
             device.setDeviceModel("ModelXYZ");
-            device.setDeviceStatus(DeviceStatus.IN_USE);
+            device.setStatus(Status.IN_STORAGE);
             device.setComments("Test comments");
             deviceService.saveDevice(device);
 
@@ -74,6 +68,7 @@ public class DeviceManagerBackendApplication {
             simcard.setPhoneNumber("98765432");
             simcard.setPin("4321");
             simcard.setPuk("8765");
+            simcard.setStatus(Status.IN_STORAGE);
             simcardService.saveSimcard(simcard);
 
             // Creating and saving test data for Datacard
@@ -81,6 +76,7 @@ public class DeviceManagerBackendApplication {
             datacard.setIccidNumber("999888777666555");
             datacard.setPin("9999");
             datacard.setPuk("1111");
+            datacard.setStatus(Status.IN_STORAGE);
             datacardService.saveDatacard(datacard);
 
         };

@@ -1,5 +1,6 @@
 package com.example.devicemanagerbackend.entities;
 
+import com.example.devicemanagerbackend.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,10 @@ public class Simcard {
 
     @Column(nullable = false)
     private String puk;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

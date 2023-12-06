@@ -1,7 +1,7 @@
 package com.example.devicemanagerbackend.controllers;
 
 
-import com.example.devicemanagerbackend.DTO.DeviceStatusDto;
+import com.example.devicemanagerbackend.DTO.StatusDTO;
 import com.example.devicemanagerbackend.DTO.DeviceTypeDto;
 import com.example.devicemanagerbackend.DTO.UserRolesDTO;
 import com.example.devicemanagerbackend.services.EnumService;
@@ -31,9 +31,9 @@ public class EnumController {
         return new ResponseEntity<>(deviceTypeDisplayNames, HttpStatus.OK);
     }
 
-    @GetMapping("/devicestatus")
-    public ResponseEntity<List<DeviceStatusDto>> getAllDeviceStatusDisplayNames() {
-        List<DeviceStatusDto> deviceStatusDisplayNames = enumService.getAllDeviceStatusDisplayNames();
+    @GetMapping("/status")
+    public ResponseEntity<List<StatusDTO>> getAllStatusDisplayNames() {
+        List<StatusDTO> deviceStatusDisplayNames = enumService.getAllStatusDisplayNames();
         return new ResponseEntity<>(deviceStatusDisplayNames, HttpStatus.OK);
     }
     @GetMapping("/userRoles")

@@ -2,16 +2,12 @@ package com.example.devicemanagerbackend.controllers;
 
 import com.example.devicemanagerbackend.DTO.DeviceDTO;
 import com.example.devicemanagerbackend.entities.Device;
-import com.example.devicemanagerbackend.entities.User;
-import com.example.devicemanagerbackend.enums.DeviceStatus;
-import com.example.devicemanagerbackend.enums.DeviceType;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.services.DeviceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/device")
@@ -49,9 +45,7 @@ public class DeviceRestController {
     // Opdater en eksisterende enhed
     @PutMapping("/{id}")
     public ResponseEntity<Device> updateDevice(@PathVariable String id, @RequestBody DeviceDTO updatedDeviceDTO) {
-
         Device updatedDTO = deviceService.updateDevice(id, updatedDeviceDTO);
-        System.out.println(updatedDTO.toString());
         return ResponseEntity.ok(updatedDTO);
     }
 

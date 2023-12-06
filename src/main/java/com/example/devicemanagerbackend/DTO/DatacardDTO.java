@@ -2,6 +2,7 @@ package com.example.devicemanagerbackend.DTO;
 
 import com.example.devicemanagerbackend.entities.Datacard;
 import com.example.devicemanagerbackend.entities.User;
+import com.example.devicemanagerbackend.enums.Status;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ public class DatacardDTO {
     private String iccidNumber;
     private String pin;
     private String puk;
+    private Status status;
     private User user;
 
     public DatacardDTO(Datacard datacard) {
@@ -19,6 +21,7 @@ public class DatacardDTO {
         this.iccidNumber = datacard.getIccidNumber();
         this.pin = datacard.getPin();
         this.puk = datacard.getPuk();
+        this.status = datacard.getStatus();
         this.user = datacard.getUser();
     }
 }
