@@ -1,5 +1,7 @@
 package com.example.devicemanagerbackend.services;
 
+import com.example.devicemanagerbackend.entities.Role;
+import com.example.devicemanagerbackend.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,9 +26,9 @@ public class TokenService {
     public String generateJwt(Authentication auth) {
         Instant now = Instant.now();
 
-        String scope = auth.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(" "));
+        Role userRole = ((User) auth.getPrincipal()).getRole();  // Assuming User implements UserDetails
+
+        String scope = userRole.getAuthority();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")

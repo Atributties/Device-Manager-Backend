@@ -1,5 +1,6 @@
 package com.example.devicemanagerbackend.controllers;
 
+import com.example.devicemanagerbackend.DTO.UserDTO;
 import com.example.devicemanagerbackend.entities.User;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.services.UserService;
@@ -33,13 +34,13 @@ public class UserRestControllerTest {
     @Test
     public void testGetAllUsers() {
         // Arrange
-        List<User> expectedUsers = new ArrayList<>();
+        List<UserDTO> expectedUsers = new ArrayList<>();
 
         // Mock the service to return the expected employees
         when(userService.findAll()).thenReturn(expectedUsers);
 
         // Act
-        ResponseEntity<List<User>> response = userRestController.getAllUsers();
+        ResponseEntity<List<UserDTO>> response = userRestController.getAllUsers();
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());

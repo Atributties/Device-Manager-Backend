@@ -1,6 +1,6 @@
 package com.example.devicemanagerbackend.DTO;
 
-import com.example.devicemanagerbackend.enums.UserType;
+import com.example.devicemanagerbackend.enums.UserRole;
 
 public class RegistrationDTO {
     private String firstName;
@@ -8,19 +8,19 @@ public class RegistrationDTO {
     private String lastName;
     private String email;
     private String password;
-    private UserType userType;
+    private UserRole userRole;
 
     public RegistrationDTO() {
         super();
     }
 
-    public RegistrationDTO(String firstName, String middleName, String lastName, String email, String password, UserType userType) {
+    public RegistrationDTO(String firstName, String middleName, String lastName, String email, String password, UserRole userRole) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.userType = userType;
+        this.userRole = userRole;
     }
 
     public String getEmail() {
@@ -63,12 +63,12 @@ public class RegistrationDTO {
         this.lastName = lastName;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public UserRole getUserRole() {
+        return userRole;
     }
 
-    public void setUserType(UserType userType) {
-        this.userType = userType;
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     public String toString(){
