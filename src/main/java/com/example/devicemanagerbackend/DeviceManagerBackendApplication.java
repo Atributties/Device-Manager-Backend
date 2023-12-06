@@ -53,6 +53,20 @@ public class DeviceManagerBackendApplication {
 
             userRepository.save(admin);
 
+            User user = new User();
+            user.setFirstname("Mathias");
+            user.setMiddlename("Marcus");
+            user.setLastname("Christiansen");
+            user.setEmail("Christian@example.com");
+            user.setPassword("password1");
+            user.setUserRole(UserRole.USER);
+
+            Role userRole = roleRepository.findByAuthority(UserRole.USER.name())
+                    .orElseThrow(() -> new RuntimeException("Default role not found: " + UserRole.USER.name()));
+            user.setRole(userRole);
+
+            userRepository.save(user);
+
 
             Device device = new Device();
             device.setImeiNumber("123456789012345");
