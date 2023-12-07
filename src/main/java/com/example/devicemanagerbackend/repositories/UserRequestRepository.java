@@ -10,4 +10,6 @@ public interface UserRequestRepository extends JpaRepository<UserRequest, Intege
     List<UserRequest> findByUserId(int userId);
 
     Optional<UserRequest> findByIdAndUserId(int requestId, int userId);
+
+    List<UserRequest> findAllByUserId(int userId);
 }

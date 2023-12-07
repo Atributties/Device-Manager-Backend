@@ -2,6 +2,8 @@ package com.example.devicemanagerbackend.controllers;
 
 import com.example.devicemanagerbackend.DTO.MessageDTO;
 import com.example.devicemanagerbackend.DTO.UserRequestDTO;
+import com.example.devicemanagerbackend.entities.UserRequest;
+import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.services.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,23 +33,26 @@ public class ChatRestController {
 
     // Opret en ny besked på en brugeranmodning
     @PostMapping("/user-requests/{requestId}/messages")
-    public ResponseEntity<UserRequestDTO> addMessageToUserRequest(@PathVariable int requestId, @RequestBody MessageDTO messageDTO) {
-        UserRequestDTO updatedUserRequest = chatService.addMessageToUserRequest(requestId, messageDTO);
-        return new ResponseEntity<>(updatedUserRequest, HttpStatus.OK);
+    public ResponseEntity<UserRequest> addMessageToUserRequest(@PathVariable int requestId, @RequestBody MessageDTO messageDTO) {
+        return chatService.addMessageToUserRequest(requestId, messageDTO)
+                .map(ResponseEntity::ok).orElseThrow(() -> new CustomException("problem with add new message"));
     }
+
 
     // Hent alle brugeranmodninger (for administrator)
     @GetMapping("/admin/user-requests")
     public ResponseEntity<List<UserRequestDTO>> getAllUserRequestsForAdmin() {
-        List<UserRequestDTO> allUserRequests = chatService.getAllUserRequestsWithMessages();
-        return new ResponseEntity<>(allUserRequests, HttpStatus.OK);
+        return chatService.getAllUserRequestsWithMessages()
+                .map(ResponseEntity::ok)
+                .orElseThrow(()-> new CustomException("problem with get all UserRequest"));
+
     }
 
     // Hent en specifik brugeranmodning med beskeder (for administrator)
     @GetMapping("/admin/user-requests/{requestId}")
-    public ResponseEntity<UserRequestDTO> getUserRequestWithMessagesForAdmin(@PathVariable int requestId) {
-        UserRequestDTO userRequestWithMessages = chatService.getUserRequestWithMessages(requestId);
-        return new ResponseEntity<>(userRequestWithMessages, HttpStatus.OK);
+    public ResponseEntity<UserRequestDTO> getUserRequestById(@PathVariable int requestId) {
+        UserRequestDTO userRequest = chatService.getUserRequest(requestId);
+        return new ResponseEntity<>(userRequest, HttpStatus.OK);
     }
 
     // Hent alle brugeranmodninger for en specifik bruger
@@ -57,10 +62,4 @@ public class ChatRestController {
         return new ResponseEntity<>(userRequests, HttpStatus.OK);
     }
 
-    // Hent en specifik brugeranmodning med beskeder for en specifik bruger
-    @GetMapping("/user/{userId}/user-requests/{requestId}")
-    public ResponseEntity<UserRequestDTO> getUserRequestWithMessagesForUser(@PathVariable int userId, @PathVariable int requestId) {
-        UserRequestDTO userRequestWithMessages = chatService.getUserRequestWithMessagesForUser(userId, requestId);
-        return new ResponseEntity<>(userRequestWithMessages, HttpStatus.OK);
-    }
 }

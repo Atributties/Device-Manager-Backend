@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class MessageDTO {
 
     private int id;
-    private UserRequest userRequestId;
+    private UserRequest userRequest;
     private User user;
     private String messageText;
     private LocalDateTime dateCreated;

@@ -5,6 +5,7 @@ import com.example.devicemanagerbackend.DTO.MessageDTO;
 import com.example.devicemanagerbackend.DTO.UserRequestDTO;
 import com.example.devicemanagerbackend.entities.Message;
 import com.example.devicemanagerbackend.entities.UserRequest;
+import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.repositories.MessageRepository;
 import com.example.devicemanagerbackend.repositories.UserRequestRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,14 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
 
 
-    private final UserRequestRepository userRequestRepository; // Erstat UserRequestRepository med den faktiske repositoryklasse
+    private final UserRequestRepository userRequestRepository;
     private final MessageRepository messageRepository;
 
     @Autowired
@@ -28,60 +31,44 @@ public class ChatService {
         this.messageRepository = messageRepository;
     }
 
-    public UserRequestDTO getUserRequestWithMessages(int requestId) {
-        UserRequest userRequest = userRequestRepository.findById(requestId)
-                .orElseThrow(() -> new EntityNotFoundException("UserRequest not found with id: " + requestId));
+    public UserRequestDTO createUserRequest(UserRequestDTO userRequestDTO) {
+        // Convert UserRequestDTO to UserRequest entity
+        UserRequest userRequest = convertToEntity(userRequestDTO);
+        // Save the user request in the database
+        UserRequest createdUserRequest = userRequestRepository.save(userRequest);
+        // Convert the created UserRequest back to UserRequestDTO
+        return convertUserRequestToDTO(createdUserRequest);
+    }
 
-        return convertToUserRequestDTOWithMessages(userRequest);
+
+    public Optional<List<UserRequestDTO>> getAllUserRequestsWithMessages() {
+        List<UserRequest> userRequests = userRequestRepository.findAll();
+        if (!userRequests.isEmpty()) {
+            return Optional.of(userRequests.stream()
+                    .map(this::convertUserRequestToDTO)
+                    .collect(Collectors.toList()));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public UserRequestDTO getUserRequest(int requestId) {
+        return userRequestRepository.findById(requestId)
+                .map(this::convertUserRequestToDTO)
+                .orElseThrow(() -> new CustomException("User request not found with ID: " + requestId));
     }
 
     public List<UserRequestDTO> getAllUserRequestsForUser(int userId) {
-        List<UserRequest> userRequests = userRequestRepository.findByUserId(userId);
+        List<UserRequest> userRequests = userRequestRepository.findAllByUserId(userId);
         return userRequests.stream()
-                .map(this::convertToUserRequestDTOWithMessages)
-                .collect(Collectors.toList());
-    }
-
-    public UserRequestDTO getUserRequestWithMessagesForUser(int userId, int requestId) {
-        UserRequest userRequest = userRequestRepository.findByIdAndUserId(requestId,  userId)
-                .orElseThrow(() -> new EntityNotFoundException("UserRequest not found with id: " + requestId + " for user id: " + userId));
-
-        return convertToUserRequestDTOWithMessages(userRequest);
-    }
-
-
-    public List<UserRequestDTO> getAllUserRequestsWithMessages() {
-        List<UserRequest> allUserRequests = userRequestRepository.findAll();
-        return allUserRequests.stream()
-                .map(this::convertToUserRequestDTOWithMessages)
-                .collect(Collectors.toList());
-    }
-
-    private UserRequestDTO convertToUserRequestDTOWithMessages(UserRequest userRequest) {
-        UserRequestDTO userRequestDTO = convertToDTO(userRequest);
-        userRequestDTO.setMessages(convertToMessageDTOList(userRequest.getMessages()));
-        return userRequestDTO;
-    }
-
-    private List<MessageDTO> convertToMessageDTOList(List<Message> messages) {
-        return messages.stream()
-                .map(this::convertToMessageDTO)
+                .map(this::convertUserRequestToDTO)
                 .collect(Collectors.toList());
     }
 
 
-
-    public UserRequestDTO createUserRequest(UserRequestDTO userRequestDTO) {
-        // Konverter UserRequestDTO til entiteten UserRequest
-        UserRequest userRequest = convertToEntity(userRequestDTO);
-        // Gem den oprettede UserRequest i databasen
-        UserRequest savedUserRequest = userRequestRepository.save(userRequest);
-        // Konverter den gemte UserRequest til UserRequestDTO og returner den
-        return convertToDTO(savedUserRequest);
-    }
 
     @Transactional
-    public UserRequestDTO addMessageToUserRequest(int requestId, MessageDTO messageDTO) {
+    public Optional<UserRequest> addMessageToUserRequest(int requestId, MessageDTO messageDTO) {
         // Hent den eksisterende UserRequest fra databasen
         UserRequest userRequest = userRequestRepository.findById(requestId)
                 .orElseThrow(() -> new EntityNotFoundException("UserRequest not found with id: " + requestId));
@@ -101,58 +88,70 @@ public class ChatService {
         userRequest.getMessages().add(savedMessage);
 
         // Gem opdateret UserRequest i databasen
-        UserRequest savedUserRequest = userRequestRepository.save(userRequest);
-
-        // Opret UserRequestDTO direkte fra savedUserRequest
-        UserRequestDTO userRequestDTO = new UserRequestDTO();
-        userRequestDTO.setId(savedUserRequest.getId());
-        userRequestDTO.setRequestType(savedUserRequest.getRequestType());
-        userRequestDTO.setUser(savedUserRequest.getUser());
-        userRequestDTO.setRequestText(savedUserRequest.getRequestText());
-        userRequestDTO.setMessages(savedUserRequest.getMessages().stream()
-                .map(this::convertToMessageDTO)
-                .collect(Collectors.toList()));
-        userRequestDTO.setDateCreated(savedUserRequest.getDateCreated());
-        userRequestDTO.setLastUpdated(savedUserRequest.getLastUpdated());
-
-        return userRequestDTO;
+        userRequestRepository.save(userRequest);
+        return Optional.of(userRequest);
     }
 
-    // Konverter Message til MessageDTO
-    private MessageDTO convertToMessageDTO(Message message) {
-        MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setId(message.getId());
-        messageDTO.setUserRequestId(message.getUserRequest());
-        messageDTO.setUser(message.getUser());
-        messageDTO.setMessageText(message.getMessageText());
-        messageDTO.setDateCreated(message.getDateCreated());
-        return messageDTO;
+    //Converters
+
+    private UserRequestDTO convertUserRequestToDTO(UserRequest userRequest) {
+        return new UserRequestDTO(
+                userRequest.getId(),
+                userRequest.getRequestType(),
+                userRequest.getUser(),
+                userRequest.getRequestText(),
+                Collections.singletonList(convertMessagesToDTO((Message) userRequest.getMessages())),
+                userRequest.getDateCreated(),
+                userRequest.getLastUpdated()
+        );
     }
 
+    private MessageDTO convertMessagesToDTO(Message message) {
+        // Implement the conversion logic from Message to MessageDTO
+        return new MessageDTO(
+                message.getId(),
+                message.getUserRequest(),
+                message.getUser(),
+                message.getMessageText(),
+                message.getDateCreated()
+                // Add other message-related fields as needed
+        );
+    }
 
-
-
-
-
-
-    // Konverter UserRequestDTO til entiteten UserRequest
     private UserRequest convertToEntity(UserRequestDTO userRequestDTO) {
-        UserRequest userRequest = new UserRequest();
-        userRequest.setRequestType(userRequestDTO.getRequestType());
-        userRequest.setUser(userRequestDTO.getUser());
-        userRequest.setRequestText(userRequestDTO.getRequestText());
-        return userRequest;
+        return new UserRequest(
+                userRequestDTO.getId(),
+                userRequestDTO.getRequestType(),
+                userRequestDTO.getUser(),
+                userRequestDTO.getRequestText(),
+                Collections.singletonList(convertMessagesDTOToEntities((MessageDTO) userRequestDTO.getMessages())),
+                userRequestDTO.getDateCreated(),
+                userRequestDTO.getLastUpdated()
+        );
     }
 
-    // Konverter UserRequest til UserRequestDTO
-    private UserRequestDTO convertToDTO(UserRequest userRequest) {
-        UserRequestDTO userRequestDTO = new UserRequestDTO();
-        userRequestDTO.setId(userRequest.getId());
-        userRequestDTO.setRequestType(userRequest.getRequestType());
-        userRequestDTO.setUser(userRequest.getUser());
-        userRequestDTO.setRequestText(userRequest.getRequestText());
-        return userRequestDTO;
+    private Message convertMessagesDTOToEntities(MessageDTO messageDTO) {
+        return new Message(
+                messageDTO.getId(),
+                messageDTO.getUserRequest(),
+                messageDTO.getUser(),
+                messageDTO.getMessageText(),
+                messageDTO.getDateCreated()
+                // Add other message-related fields as needed
+        );
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
