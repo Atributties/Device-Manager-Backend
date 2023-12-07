@@ -76,6 +76,7 @@ public class DeviceManagerBackendApplication {
             device.setStatus(Status.IN_STORAGE);
             device.setComments("Test comments");
             deviceService.saveDevice(device);
+            System.out.println("______________________" + device.getDeviceType());
 
             Simcard simcard = new Simcard();
             simcard.setIccidNumber("55544433322211112121");
