@@ -1,9 +1,11 @@
 package com.example.devicemanagerbackend.services;
 
 
+import com.example.devicemanagerbackend.DTO.RequestTypeDTO;
 import com.example.devicemanagerbackend.DTO.StatusDTO;
 import com.example.devicemanagerbackend.DTO.DeviceTypeDto;
 import com.example.devicemanagerbackend.DTO.UserRolesDTO;
+import com.example.devicemanagerbackend.enums.RequestType;
 import com.example.devicemanagerbackend.enums.Status;
 import com.example.devicemanagerbackend.enums.DeviceType;
 import com.example.devicemanagerbackend.enums.UserRole;
@@ -31,6 +33,12 @@ public class EnumService {
     public List<UserRolesDTO> getAllUserTypesDisplayNames() {
         return Arrays.stream(UserRole.values())
                 .map(UserRole::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<RequestTypeDTO> getAllRequestTypeNames() {
+        return Arrays.stream(RequestType.values())
+                .map(RequestType::toDto)
                 .collect(Collectors.toList());
     }
 }
