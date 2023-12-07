@@ -121,7 +121,9 @@ public class ChatService {
                 message.getUserRequest(),
                 message.getUser(),
                 message.getMessageText(),
+                message.isReaded(),
                 message.getDateCreated()
+
         );
     }
 
@@ -157,6 +159,7 @@ public class ChatService {
                 messageDTO.getUserRequest(),
                 messageDTO.getUser(),
                 messageDTO.getMessageText(),
+                messageDTO.isReaded(),
                 messageDTO.getDateCreated()
         );
     }

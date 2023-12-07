@@ -30,6 +30,7 @@ public class UserRequest {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @Column(nullable = false, length = 2000) // Adjust the length based on your requirements
     private String requestText;
 
     @OneToMany(mappedBy = "userRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

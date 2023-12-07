@@ -28,7 +28,11 @@ public class Message {
 
     private String messageText;
 
+    private boolean readed;
+
     @CreationTimestamp
     private LocalDateTime dateCreated;
+
+
 
 }
