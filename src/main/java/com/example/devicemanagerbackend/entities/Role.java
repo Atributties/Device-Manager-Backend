@@ -12,7 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 public class Role implements GrantedAuthority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
     private int roleId;
 
@@ -23,11 +23,6 @@ public class Role implements GrantedAuthority {
     }
 
     public Role(String authority) {
-        this.authority = authority;
-    }
-
-    public Role(int roleId, String authority) {
-        this.roleId = roleId;
         this.authority = authority;
     }
 

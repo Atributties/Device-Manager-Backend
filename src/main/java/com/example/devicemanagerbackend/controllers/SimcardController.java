@@ -1,5 +1,6 @@
 package com.example.devicemanagerbackend.controllers;
 
+import com.example.devicemanagerbackend.DTO.SimcardDTO;
 import com.example.devicemanagerbackend.entities.Simcard;
 import com.example.devicemanagerbackend.exceptions.CustomException;
 import com.example.devicemanagerbackend.services.SimcardService;
@@ -48,8 +49,8 @@ public class SimcardController {
 
     // Opdater en eksisterende enhed
     @PutMapping("/{id}")
-    public ResponseEntity<Simcard> updateSimcard(@PathVariable int id, @RequestBody Simcard updatedSimcard) {
-        Simcard updated = simcardService.updateSimcard(id, updatedSimcard);
+    public ResponseEntity<Simcard> updateSimcard(@PathVariable int id, @RequestBody SimcardDTO simcardDTO) {
+        Simcard updated = simcardService.updateSimcard(id, simcardDTO);
         return ResponseEntity.ok(updated);
     }
 
@@ -63,5 +64,11 @@ public class SimcardController {
                     return ResponseEntity.noContent().<Void>build();
                 })
                 .orElseThrow(() -> new CustomException("Datacard not found with ID: " + id));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Simcard>> getSimcardsByUserId(@PathVariable int userId) {
+        List<Simcard> simcards = simcardService.findSimcardsByUserId(userId);
+        return ResponseEntity.ok(simcards);
     }
 }

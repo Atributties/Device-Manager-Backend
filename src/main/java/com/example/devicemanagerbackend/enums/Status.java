@@ -1,16 +1,14 @@
 package com.example.devicemanagerbackend.enums;
 
-import com.example.devicemanagerbackend.DTO.DeviceStatusDto;
-import com.example.devicemanagerbackend.DTO.DeviceTypeDto;
+import com.example.devicemanagerbackend.DTO.StatusDTO;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public enum DeviceStatus {
+public enum Status {
     IN_USE("In Use"),
     IN_STORAGE("In Storage"),
     UNDER_REPAIR("Under Repair"),
@@ -18,8 +16,8 @@ public enum DeviceStatus {
 
     private String displayName;
 
-    public DeviceStatusDto toDto() {
-        return new DeviceStatusDto(displayName, name());
+    public StatusDTO toDto() {
+        return new StatusDTO(displayName, name());
     }
 
 }

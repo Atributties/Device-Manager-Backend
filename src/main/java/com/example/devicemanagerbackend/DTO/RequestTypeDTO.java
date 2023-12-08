@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class DeviceStatusDto {
+public class RequestTypeDTO {
     private String displayName;
     private String enumValue;
 }

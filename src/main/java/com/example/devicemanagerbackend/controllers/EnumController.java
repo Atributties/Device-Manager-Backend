@@ -1,9 +1,10 @@
 package com.example.devicemanagerbackend.controllers;
 
 
-import com.example.devicemanagerbackend.DTO.DeviceStatusDto;
+import com.example.devicemanagerbackend.DTO.RequestTypeDTO;
+import com.example.devicemanagerbackend.DTO.StatusDTO;
 import com.example.devicemanagerbackend.DTO.DeviceTypeDto;
-import com.example.devicemanagerbackend.DTO.UserTypeDto;
+import com.example.devicemanagerbackend.DTO.UserRolesDTO;
 import com.example.devicemanagerbackend.services.EnumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,15 +32,21 @@ public class EnumController {
         return new ResponseEntity<>(deviceTypeDisplayNames, HttpStatus.OK);
     }
 
-    @GetMapping("/devicestatus")
-    public ResponseEntity<List<DeviceStatusDto>> getAllDeviceStatusDisplayNames() {
-        List<DeviceStatusDto> deviceStatusDisplayNames = enumService.getAllDeviceStatusDisplayNames();
+    @GetMapping("/status")
+    public ResponseEntity<List<StatusDTO>> getAllStatusDisplayNames() {
+        List<StatusDTO> deviceStatusDisplayNames = enumService.getAllStatusDisplayNames();
         return new ResponseEntity<>(deviceStatusDisplayNames, HttpStatus.OK);
     }
-    @GetMapping("/usertypes")
-    public ResponseEntity<List<UserTypeDto>> getAllUserTypesDisplayNames() {
-        List<UserTypeDto> userTypesDisplayNames = enumService.getAllUserTypesDisplayNames();
+    @GetMapping("/userRoles")
+    public ResponseEntity<List<UserRolesDTO>> getAllUserTypesDisplayNames() {
+        List<UserRolesDTO> userTypesDisplayNames = enumService.getAllUserTypesDisplayNames();
         return new ResponseEntity<>(userTypesDisplayNames, HttpStatus.OK);
+    }
+
+    @GetMapping("/requestType")
+    public ResponseEntity<List<RequestTypeDTO>> getAllRequestTypesNames() {
+        List<RequestTypeDTO> requestTypesNames = enumService.getAllRequestTypeNames();
+        return new ResponseEntity<>(requestTypesNames, HttpStatus.OK);
     }
 
 
