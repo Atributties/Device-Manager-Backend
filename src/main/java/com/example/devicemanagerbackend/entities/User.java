@@ -1,7 +1,11 @@
 package com.example.devicemanagerbackend.entities;
 
-import com.example.devicemanagerbackend.enums.UserType;
+import com.example.devicemanagerbackend.enums.UserRole;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,15 +14,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "User_id")
     private int id;
-
     private String firstname;
     private String middlename;
     private String lastname;
@@ -26,53 +30,27 @@ public class User implements UserDetails {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private UserType userType;
+    private UserRole userRole;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> authorities;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
-    public User() {
-        super();
-        this.authorities = new HashSet<Role>();
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Device> devices = new HashSet<>();
 
-    public User(int id, String firstname, String middlename, String lastname, String email, String password, Set<Role> authorities) {
-        super();
-        this.id = id;
-        this.firstname = firstname;
-        this.middlename = middlename;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password;
-        this.authorities = authorities;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Datacard> datacards = new HashSet<>();
 
-    // Getters and setters
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Simcard> simcards = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> combinedAuthorities = new HashSet<>(this.authorities);
-        combinedAuthorities.addAll(getAuthoritiesBasedOnUserType());
-        return combinedAuthorities;
+        return Set.of(new SimpleGrantedAuthority(role.getAuthority()));
     }
 
-    private Collection<? extends GrantedAuthority> getAuthoritiesBasedOnUserType() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        switch (this.userType) {
-            case DEVICE_ADMIN:
-                authorities.add(new SimpleGrantedAuthority("DEVICE_ADMIN"));
-                break;
-            case USER:
-                authorities.add(new SimpleGrantedAuthority("USER"));
-                break;
-        }
-        return authorities;
-    }
+
 
     @Override
     public String getPassword() {
@@ -105,62 +83,12 @@ public class User implements UserDetails {
     }
 
 
-    public void setAuthorities(Set<Role> authorities) {
-        this.authorities = authorities;
-    }
+
 
     public void setPassword(String password) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password = passwordEncoder.encode(password);
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getMiddlename() {
-        return middlename;
-    }
-
-    public void setMiddlename(String middlename) {
-        this.middlename = middlename;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-
-    public UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 }
 
