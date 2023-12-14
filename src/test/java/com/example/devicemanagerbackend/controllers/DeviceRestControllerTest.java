@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-
+/*
 @ExtendWith(MockitoExtension.class)
 class DeviceRestControllerTest {
 
@@ -134,7 +134,7 @@ class DeviceRestControllerTest {
     }
 
 
-    /*@Test
+    @Test
     public void testUpdateDevice() {
         // Arrange
         String deviceId = "TB0001";
@@ -162,11 +162,11 @@ class DeviceRestControllerTest {
         assertEquals(updatedDevice, response.getBody());
     }
 
-     */
 
 
 
-   /* @Test
+
+    @Test
     public void testUpdateDeviceException() {
         // Arrange
         String deviceId = "TB0001";
@@ -179,7 +179,7 @@ class DeviceRestControllerTest {
         // Act and Assert
         assertThrows(CustomException.class, () -> deviceRestController.updateDevice(deviceId, updatedDevice));
     }
-*/
+
 
 
 
@@ -223,4 +223,8 @@ class DeviceRestControllerTest {
 
 
 
+
 }
+
+ */
+

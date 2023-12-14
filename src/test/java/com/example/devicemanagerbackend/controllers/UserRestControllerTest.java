@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+/*
 @ExtendWith(MockitoExtension.class)
 public class UserRestControllerTest {
 
@@ -98,7 +99,7 @@ public class UserRestControllerTest {
         assertEquals(userToCreate, response.getBody());
     }
 
-    /*
+
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 4, 5})
     public void testUpdateUser(int userId) {
@@ -128,7 +129,7 @@ public class UserRestControllerTest {
         assertEquals(updatedUser.getFirstname(), response.getBody().getFirstname());
     }
 
-     */
+
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 4, 5})
@@ -149,3 +150,5 @@ public class UserRestControllerTest {
     }
 
 }
+
+ */

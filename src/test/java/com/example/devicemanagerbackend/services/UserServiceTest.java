@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-
+/*
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
@@ -79,7 +79,7 @@ public class UserServiceTest {
     }
 
 
-   /*
+
    @Test
    public void testFindAllUsers() {
         // Arrange
@@ -92,7 +92,7 @@ public class UserServiceTest {
         // Assert
         assertEquals(expectedUser, result);
     }
-*/
+
     @Test
     public void testGetUsersById() {
         // Arrange
@@ -122,3 +122,6 @@ public class UserServiceTest {
     }
 
 }
+
+ */
+

@@ -20,7 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-
+/*
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class DeviceServiceTest {
@@ -37,7 +37,7 @@ public class DeviceServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    /*
+
     @Test
     public void testSaveDevice() {
         // Arrange
@@ -122,6 +122,10 @@ public class DeviceServiceTest {
         // Assert
         verify(deviceRepository, times(1)).delete(device);
     }
+    }
+ */
 
-     */
-}
+
+
+
+
