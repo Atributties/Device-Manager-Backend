@@ -68,6 +68,7 @@ public class DeviceManagerBackendApplication {
             userRepository.save(user);
 
 
+            /*
             Device device = new Device();
             device.setImeiNumber("123456789012345");
             device.setSerialNumber("ABC123");
@@ -93,6 +94,8 @@ public class DeviceManagerBackendApplication {
             datacard.setPuk("1111");
             datacard.setStatus(Status.IN_STORAGE);
             datacardService.saveDatacard(datacard);
+
+             */
 
         };
 
