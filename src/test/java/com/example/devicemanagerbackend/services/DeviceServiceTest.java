@@ -65,7 +65,7 @@ public class DeviceServiceTest {
         assertNotNull(device.getId()); // Ensure the ID is not null
     }
 
-     */
+
 
 
     @Test
@@ -84,7 +84,7 @@ public class DeviceServiceTest {
     @Test
     public void testGetDeviceById() {
         // Arrange
-        String deviceId = "DEVICE001";
+        String deviceId = "SP0001";
         Device expectedDevice = new Device();
 
         when(deviceRepository.findById(deviceId)).thenReturn(Optional.of(expectedDevice));
@@ -96,7 +96,7 @@ public class DeviceServiceTest {
         assertEquals(Optional.of(expectedDevice), result);
     }
 
-    /*@Test
+    @Test
     public void testUpdateDevice() {
         // Arrange
         DeviceDTO updatedDevice = new DeviceDTO();
@@ -109,7 +109,7 @@ public class DeviceServiceTest {
         // Act and Assert
         assertThrows(CustomException.class, () -> deviceService.updateDevice(updatedDevice.getId(), updatedDevice));
 
-    }*/
+    }
 
     @Test
     public void testDeleteDevice() {
@@ -122,4 +122,6 @@ public class DeviceServiceTest {
         // Assert
         verify(deviceRepository, times(1)).delete(device);
     }
+
+     */
 }

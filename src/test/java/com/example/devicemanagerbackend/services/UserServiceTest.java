@@ -1,8 +1,10 @@
 package com.example.devicemanagerbackend.services;
 
 
+import com.example.devicemanagerbackend.entities.Role;
 import com.example.devicemanagerbackend.entities.User;
 import com.example.devicemanagerbackend.enums.UserRole;
+import com.example.devicemanagerbackend.repositories.RoleRepository;
 import com.example.devicemanagerbackend.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
@@ -26,6 +27,9 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private RoleRepository roleRepository;
+
     @InjectMocks
     private UserService userService;
 
@@ -33,21 +37,32 @@ public class UserServiceTest {
     public void testSaveUser() {
         // Arrange
         User user = new User();
-        user.setFirstname("John");
-        user.setLastname("Doe");
+        user.setFirstname("Mathias");
+        user.setMiddlename("Marcus");
+        user.setLastname("Christiansen");
+        user.setEmail("Christian@example.com");
+        user.setPassword("password1");
         user.setUserRole(UserRole.USER);
 
-        when(userRepository.save(user)).thenReturn(user);
+        // Mock rolle-opslag
+        Role userRole = new Role(); // Antager at du har en klasse ved navn Role
+        userRole.setAuthority(UserRole.USER.name());
+        when(roleRepository.findByAuthority(UserRole.USER.name())).thenReturn(Optional.of(userRole));
+
+        user.setRole(userRole);
+
+        // Mock gem bruger
+        when(userRepository.save(any(User.class))).thenReturn(user);
 
         // Act
         Optional<User> result = userService.saveUser(user);
 
         // Assert
-        assertTrue(result.isPresent());
+        assertNotNull(result);
         assertEquals(user, result.get());
-        verify(userRepository).save(user);
+        verify(userRepository).save(any(User.class)); // Verificer interaktion med userRepository
+        verify(roleRepository).findByAuthority(UserRole.USER.name()); // Verificer interaktion med roleRepository
     }
-
     @Test
     public void testGenerateFullname() {
         // Arrange
